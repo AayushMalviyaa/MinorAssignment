@@ -33,7 +33,7 @@ pipeline {
          stage('Push to Artifactory') {
             steps {
                 script {
-                    def server = Artifactory.server 'ArtifactoryServer'
+                    def server = Artifactory.server 'artifactory'
                     def rtMaven = Artifactory.newMavenBuild()
                     rtMaven.tool = "Maven"
                     rtMaven.deployer server: server, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
