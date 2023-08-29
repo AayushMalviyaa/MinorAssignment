@@ -47,12 +47,11 @@ pipeline {
                 )
             }
         }
-         stage('Build and Push Docker Image') {
+         stage('Build Docker Image') {
             steps {
-                // Build and push Docker image
                 script {
-                    def dockerImage = docker.build("aayushmalviya/calculator-app:${env.BUILD_ID}")
-                    dockerImage.push()
+                    // Build the Docker image
+                    docker.build("aayushmalviya/calculator-app:${env.BUILD_ID}", "-f Dockerfile .")
                 }
             }
         }
