@@ -55,6 +55,16 @@ pipeline {
                 }
             }
         }
+        stage('Push Docker Image') {
+    steps {
+        script {
+            // Push the Docker image to Docker Hub
+            docker.withRegistry('https://registry.hub.docker.com', '97c36c51-b00f-4bd1-911b-3143b0f3b00d') {
+                docker.image("aayushmalviya/calculator-app:${env.BUILD_ID}").push()
+            }
+        }
+    }
+}
     
 
 
