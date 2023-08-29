@@ -36,9 +36,14 @@ pipeline {
             def server = Artifactory.server 'artifactory'
             def rtMaven = Artifactory.newMavenBuild()
             rtMaven.tool = "Maven"
+
+            // Configure deployment repositories
             rtMaven.deployer server: server, releaseRepo: 'libs-release-local', snapshotRepo: 'libs-snapshot-local'
+            // Optional: You can configure a resolver repository if needed
             rtMaven.resolver server: server, repo: 'libs-release'
-            rtMaven.run pom: 'pom.xml', goals: 'clean install'
+
+            // Run Maven build with deploy goal
+            rtMaven.run pom: 'pom.xml', goals: 'clean deploy'
         }
     }
 }
