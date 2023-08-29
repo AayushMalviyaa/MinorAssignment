@@ -6,12 +6,11 @@ pipeline {
     }
 
     stages {
-         stage("Maven Build"){
-        steps{
-            sh" mvn -f pom.xml clean install"
+        stage("Maven Build") {
+            steps {
+                sh "mvn -f pom.xml clean install"
+            }
         }
-    }
-
         
         stage('Test') {
             steps {
@@ -23,5 +22,15 @@ pipeline {
                 }
             }
         }
+        
+        stage('Sonar Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQubeServer') {
+                    sh 'mvn sonar:sonar'
+                }
+            }
+        }
+        
+        
     }
 }
