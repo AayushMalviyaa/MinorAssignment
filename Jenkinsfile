@@ -84,7 +84,7 @@ parameters {
         emailext body: 'Deployment completed successfully.',
                  recipientProviders: [[$class: 'CulpritsRecipientProvider']],
                  subject: 'Deployment Status',
-                 to: 'aayushmaviya202@gmail.com' // Replace with the recipient's email address
+                 to: 'aayushmalviya202@gmail.com' // Replace with the recipient's email address
     }
 }
 
