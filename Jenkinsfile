@@ -63,7 +63,7 @@ parameters {
         }
        
      
-         sstage('Run the container') {
+         stage('Run the container') {
     steps {
         script {
             def docker_container = sh(returnStdout: true, script: 'docker ps -a -f name="MiniAssignment" -q').trim()
