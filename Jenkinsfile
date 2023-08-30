@@ -6,7 +6,13 @@ pipeline {
     tools {
         maven "maven.3.2.5"
     }
-
+parameters {
+        choice(
+            choices: ['Dev', 'Prod'],
+            description: 'Select the environment',
+            name: 'Environment'
+        )
+    }
     stages {
         stage("Maven Build") {
             steps {
@@ -55,16 +61,34 @@ pipeline {
                 }
             }
         }
-        stage('Push Docker Image') {
+       
+     
+         sstage('Run the container') {
     steps {
         script {
-            // Push the Docker image to Docker Hub
-            docker.withRegistry('https://registry.hub.docker.com', '97c36c51-b00f-4bd1-911b-3143b0f3b00d') {
-                docker.image("aayushmalviya/calculator-app:${env.BUILD_ID}").push()
+            def docker_container = sh(returnStdout: true, script: 'docker ps -a -f name="MiniAssignment" -q').trim()
+            
+            if (docker_container) {
+                sh "docker stop ${docker_container}"
+                sh "docker rm --force ${docker_container}"
             }
+            
+            def port = params.Environment == 'Dev' ? '8084' : '8085'
+            sh "docker run -d --name MiniAssignment -p ${port}:8080 aayushmalviya/calculator-app:${env.BUILD_ID}"
         }
     }
 }
+
+//         stage('Push Docker Image') {
+//     steps {
+//         script {
+//             // Push the Docker image to Docker Hub
+//             docker.withRegistry('https://registry.hub.docker.com', '97c36c51-b00f-4bd1-911b-3143b0f3b00d') {
+//                 docker.image("aayushmalviya/calculator-app:${env.BUILD_ID}").push()
+//             }
+//         }
+//     }
+// }
     
 
 
