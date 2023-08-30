@@ -78,6 +78,14 @@ parameters {
         }
     }
 }
+        stage('Email Notification') {
+    steps {
+        emailext body: 'Deployment completed successfully.',
+                 recipientProviders: [[$class: 'CulpritsRecipientProvider']],
+                 subject: 'Deployment Status',
+                 to: 'aayush.malviya@nagarro.com' // Replace with the recipient's email address
+    }
+}
 
 //         stage('Push Docker Image') {
 //     steps {
